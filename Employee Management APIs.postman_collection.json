@@ -1,0 +1,228 @@
+{
+	"info": {
+		"_postman_id": "51204156-bdd4-4729-b32b-20706cb61ce3",
+		"name": "Employee Management APIs",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "42739658",
+		"_collection_link": "https://shweta-0241.postman.co/workspace/Employee-API-Testing~bdf25ce7-cf37-4f4e-8107-8245d2016ac7/collection/42739658-51204156-bdd4-4729-b32b-20706cb61ce3?action=share&source=collection_link&creator=42739658"
+	},
+	"item": [
+		{
+			"name": "Get single emloyee",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//check the status is 200\r",
+							"pm.test(\"status of code\", function() {\r",
+							"pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//verify the name response is janet\r",
+							"pm.test(\"the name in response is\", function() {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data.first_name).to.eql(\"Janet\");\r",
+							" });"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/users/2",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"users",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create New Employee",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//validate status code is 201\r",
+							"pm.test(\"status is 201\", function() {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"//validate title\r",
+							"pm.test(\"title is correct\", function() {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.title).to.eql(\"Shweta QA\");\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"title\": \"Shweta QA\",\r\n  \"body\": \"Practicing Postman POST request\",\r\n  \"userId\": 10\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://jsonplaceholder.typicode.com/posts",
+					"protocol": "https",
+					"host": [
+						"jsonplaceholder",
+						"typicode",
+						"com"
+					],
+					"path": [
+						"posts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Employee",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//test script to check status \r",
+							"pm.test(\"The status code is 200\", function (){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//verify updated title\r",
+							"pm.test(\"the title is updated\", function(){\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.title).to.eql(\"Updated QA Post\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":1,\r\n    \"title\":\"Updated QA Post\",\r\n    \"body\":\"this is a message to show the updated post data\",\r\n    \"userId\":1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://jsonplaceholder.typicode.com/posts/1",
+					"protocol": "https",
+					"host": [
+						"jsonplaceholder",
+						"typicode",
+						"com"
+					],
+					"path": [
+						"posts",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Employee",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//check the status is 200 \r",
+							"pm.test(\"the staus code is 200\", function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//check the response data is empty\r",
+							"pm.test(\"the response body is empty\", function(){\r",
+							"    var responseBody = pm.response.text();\r",
+							"    pm.expect(responseBody).to.eql(\"{}\");\r",
+							"});\r",
+							"\r",
+							"//check the status from 2 option in array \r",
+							"pm.test(\"the status is 200 or 204\", function(){\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200,204]);\r",
+							"});\r",
+							"\r",
+							"//to check the empty response by empty object \r",
+							"pm.test(\"the response body is empty\", function(){\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.be.an('object').that.is.empty;\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"title\": \"Shweta QA\",\r\n  \"body\": \"Practicing Postman POST request\",\r\n  \"userId\": 10\r\n}"
+				},
+				"url": {
+					"raw": "https://jsonplaceholder.typicode.com/posts/1",
+					"protocol": "https",
+					"host": [
+						"jsonplaceholder",
+						"typicode",
+						"com"
+					],
+					"path": [
+						"posts",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
